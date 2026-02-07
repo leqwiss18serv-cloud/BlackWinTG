@@ -1,5 +1,27 @@
 # Black Win Telegram Bot - Changelog
 
+## Version 1.0.1 (Security Patch) - 2026-02-07
+
+### 🔒 Security Fixes
+
+**CRITICAL: aiohttp vulnerability patches**
+- 🔒 Fixed HTTP Parser auto_decompress zip bomb vulnerability (CVE)
+  - Affected: aiohttp <= 3.13.2
+  - Patched: Updated to aiohttp 3.13.3
+- 🔒 Fixed Denial of Service from malformed POST requests (CVE)
+  - Affected: aiohttp < 3.9.4
+  - Patched: Updated to aiohttp 3.13.3
+
+### 📦 Dependency Updates
+- aiohttp: 3.9.3 → 3.13.3 (security patch)
+
+### 📝 Notes
+- No functionality changes
+- All existing features remain the same
+- Recommended to update immediately
+
+---
+
 ## Version 1.0.0 (Initial Release) - 2026-02-07
 
 ### 🎉 Initial Release

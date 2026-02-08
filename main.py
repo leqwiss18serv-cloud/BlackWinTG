@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import sys
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
@@ -17,13 +18,37 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+def check_config():
+    """Check if all required environment variables are set"""
+    errors = []
+    
+    if not config.BOT_TOKEN:
+        errors.append("BOT_TOKEN")
+    if not config.SUPABASE_URL:
+        errors.append("SUPABASE_URL")
+    if not config.SUPABASE_KEY:
+        errors.append("SUPABASE_KEY")
+    
+    if errors:
+        logger.error(f"Missing required environment variables: {', '.join(errors)}")
+        logger.error("Please set them in Replit Secrets or .env file")
+        sys.exit(1)
+
+
 async def main():
     """Main function to start the bot"""
+    # Check configuration
+    check_config()
+    
     # Initialize bot
     bot = Bot(
         token=config.BOT_TOKEN,
         default=DefaultBotProperties(parse_mode=ParseMode.HTML)
     )
+    
+    # Delete webhook before starting polling (fixes conflict error)
+    await bot.delete_webhook(drop_pending_updates=True)
+    logger.info("Webhook deleted, starting polling...")
     
     # Initialize dispatcher
     dp = Dispatcher()
